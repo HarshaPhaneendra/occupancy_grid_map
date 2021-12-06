@@ -1,0 +1,8 @@
+prefix=/home/hp/ogm_generation/install
+
+Name: ogm
+Description: Description of ogm
+Version: 0.0.0
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib 
+Requires: roscpp std_msgs rospy message_filters sensor_msgs
