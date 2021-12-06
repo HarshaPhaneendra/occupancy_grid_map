@@ -26,8 +26,8 @@ source /opt/ros/kinetic/setup.bash
 echo "source /opt/ros/<ros-distro>/setup.bash" >> ~/.bashrc   # change '<ros-distro>' to installed version/ros distribution.
 source devel/setup.bash
 ```
-*Change access permision for script files 
-*Run appropriate script 
+* Change access permision for script files 
+* Run appropriate script 
 ```
 chmod +x src/scripts/ogm.sh       # Generation of OGM using pre-stored measurement values 
 chmod +x src/scripts/launch.sh    # Generation of OGM using 'rtab_map' ROS-package 
