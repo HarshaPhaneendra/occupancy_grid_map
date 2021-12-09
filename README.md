@@ -15,6 +15,10 @@ At the end, cv::mat image is been converted to sensor_msgs/image to be published
 on ROS topic "ogm/ogm_image".
 
 ## Build and Run
+### Prereuisite 
+* ROS disto - Kenitic (and above)
+* Gazebo version 7 (compatable with Kenitic) 
+
 ### Terminal 1
 * Download and Build the project
 ```
@@ -26,10 +30,16 @@ source /opt/ros/kinetic/setup.bash
 echo "source /opt/ros/<ros-distro>/setup.bash" >> ~/.bashrc   # change '<ros-distro>' to installed version/ros distribution.
 source devel/setup.bash
 ```
-* Change access permision for script files 
-* Run appropriate script 
+### Generation of OGM with pre-stored measurement vlaues 
+* Change access permision for script file 
+* Run the script
 ```
 chmod +x src/scripts/ogm.sh       # Generation of OGM using pre-stored measurement values 
+./src/scripts/ogm.sh
+```
+
+### Generation of OGM using 'rtab_map' ROS package
+```
 chmod +x src/scripts/launch.sh    # Generation of OGM using 'rtab_map' ROS-package 
-./src/scripts/<file_name>
+./src/scripts/launch.sh
 ```
