@@ -14,8 +14,10 @@ Values of OGM is been stored in 2d vector, later map is been created using openc
 At the end, cv::mat image is been converted to sensor_msgs/image to be published 
 on ROS topic "ogm/ogm_image".
 
+For further details of "occupancy_grid_map" repository refer its wiki page. 
+
 ## Build and Run
-### Prereuisite 
+### Prerequisite 
 * ROS disto - Kenitic (and above)
 * Gazebo version 7 (compatable with Kenitic) 
 
@@ -30,7 +32,7 @@ source /opt/ros/kinetic/setup.bash
 echo "source /opt/ros/<ros-distro>/setup.bash" >> ~/.bashrc   # change '<ros-distro>' to installed version/ros distribution.
 source devel/setup.bash
 ```
-### Generation of OGM with pre-stored measurement vlaues 
+### Generation of OGM with pre-stored measurement values 
 * Change access permision for script file 
 * Run the script
 ```
