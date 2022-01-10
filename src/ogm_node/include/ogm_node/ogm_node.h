@@ -39,40 +39,39 @@ const auto col_value = mapHeight/gridHeight;    // occupancy map column value co
 // ogm vector container 
 std::vector<std::vector<double>> ogm_vec{row_value,std::vector<double>(col_value)};
 
+// struct to hold x and y coordinates 
+struct s_coordinates
+{
+    double x;
+    double y;
+};
+
+// struct of 4 static vehicles of type 's_coordinates'
+struct s_static_vehicle
+{
+    s_coordinates car_1;
+    s_coordinates car_2;
+    s_coordinates car_3;
+    s_coordinates car_4;
+};
+
+
 class OGM_Class
 {
 private:
     
-    // image transport publisher
-    image_transport::ImageTransport it_;
-    image_transport::Publisher pub;
-    sensor_msgs::ImagePtr msg;
-
-    // struct to hold x and y coordinates 
-    struct s_coordinates
-    {
-        double x;
-        double y;
-    };
-
-    // struct of 4 static vehicles of type 's_coordinates'
-    struct s_static_vehicle
-    {
-        s_coordinates car_1;
-        s_coordinates car_2;
-        s_coordinates car_3;
-        s_coordinates car_4;
-    };
-
-    s_static_vehicle vehicle;
+    image_transport::ImageTransport it_;    // image transport ptr
+    image_transport::Publisher pub;         // publisher data type 
+    sensor_msgs::ImagePtr msg;              // local Imgeptr
 
 public:
 
-    // construtor 
-    OGM_Class(image_transport::ImageTransport* image_transport);    
+    OGM_Class(image_transport::ImageTransport* image_transport);  // construtor 
+    ~OGM_Class(); // destructor
 
-    void AddStaticVehicles(const double& row_value,
-        const double& col_value);
+    void AddStaticVehicles(s_static_vehicle& vehicle, 
+        const double& row_value,
+            const double& col_value);
 
     void ChangeToOccupied(const double& vehicle_x, 
         const double& vehicle_y,

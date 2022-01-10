@@ -1,6 +1,10 @@
 #include "ogm_node/ogm_node.h"
 
-// constructor 
+/*
+    OGM_Class::OGM_Class() is constructor 
+    Input Parameter:
+        image_transport::ImageTransport* image_transport
+*/
 OGM_Class::OGM_Class(image_transport::ImageTransport* image_transport):it_(*image_transport)
 {
     ROS_INFO("ogm constructor is called.");
@@ -8,10 +12,25 @@ OGM_Class::OGM_Class(image_transport::ImageTransport* image_transport):it_(*imag
     pub = it_.advertise("OGM/ogm_image", 1);
 }
 
-//adding static vehicle to ogm 
+/* 
+    OGM_Class::~OGM_Class() is a Destructor 
+*/
+OGM_Class::~OGM_Class()
+{
+    ROS_INFO("OGM_Class is Destroyed!");
+}
+
+/* 
+    OGM_Class::AddStaticVehicles() is to add static vehicle's/objects location to OGM - hard coded
+    Input Parameters:
+        s_static_vehicle& vehicle,
+        const double& row_value,
+        const double& col_value
+ */
 void OGM_Class::AddStaticVehicles(
-    const double& row_value,
-        const double& col_value)
+    s_static_vehicle& vehicle,
+        const double& row_value,
+            const double& col_value)
 {
     // starting coordinates of vehicle 1
     vehicle.car_1.x = 10;
@@ -32,6 +51,14 @@ void OGM_Class::AddStaticVehicles(
     OGM_Class::ChangeToOccupied(vehicle.car_4.x,vehicle.car_4.y, row_value, col_value);
 }
 
+/* 
+    OGM_Class::ChangeToOccupied() is to make bunch of pixels occupied, given that starting cordinates of vehicle
+    Input Parameters:
+        const double& vehicle_x, 
+        const double& vehicle_y,
+        const double& row_value,
+        const double& col_value)
+ */
 void OGM_Class::ChangeToOccupied(
     const double& vehicle_x, 
         const double& vehicle_y,
@@ -52,7 +79,13 @@ void OGM_Class::ChangeToOccupied(
 }
 
 
-//loop function 
+/* 
+    Color-code pixels of occupancy grid map using CV 
+    Input Parameters:
+        cv::Mat& image, 
+        const double& row_value, 
+        const double& col_value
+*/
 void OGM_Class::ColorCodeMap(
     cv::Mat& image, 
         const double& row_value, 
@@ -93,6 +126,13 @@ void OGM_Class::ColorCodeMap(
     }
 }
 
+
+/* 
+    OGM_Class::PublishMsg() is used for convertion of cv::mat to sensor_msgs::image 
+    and to publish sensor_mags::image
+    Input Parameters:
+        cv::Mat& image
+*/
 void OGM_Class::PublishMsg(cv::Mat& image)
 {
     // converting cv::mat to sensor_msgs::image to publish on ROS
@@ -107,24 +147,26 @@ int main(int argc, char **argv)
     ros::NodeHandle nh_; // creating node handle
     image_transport::ImageTransport it_(nh_); 
 
+    // create a Mat image with 8 unsigned integer image with 3 channels(RGB)
     cv::Mat image(col_value, row_value, CV_8UC3);
     cv::waitKey(30); 
   
-    OGM_Class ogm_obj(&it_);
+    // OGM_Class instance using unique_ptr
+    std::unique_ptr<OGM_Class> ogm_obj = std::make_unique<OGM_Class>(&it_);
     ros::Rate loop_rate(10);
 
-    ogm_obj.AddStaticVehicles(row_value,col_value);
-    ogm_obj.ColorCodeMap(image,row_value,col_value);
+    s_static_vehicle vehicle; // struct instance
+
+    ogm_obj->AddStaticVehicles(vehicle,row_value,col_value);
+    ogm_obj->ColorCodeMap(image,row_value,col_value);
     
     while (ros::ok())
     {
-        ogm_obj.PublishMsg(image);
+        ogm_obj->PublishMsg(image);
         ros::spinOnce();
         loop_rate.sleep();
 
     }
-    
-    
 
     return 0;
 }
