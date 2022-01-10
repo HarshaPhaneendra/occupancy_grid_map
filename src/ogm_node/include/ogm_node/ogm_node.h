@@ -1,3 +1,8 @@
+/* 
+    Occupancy grid map size 300m X 150m represented in 300X150 grid cells 
+    Each cell resolution, 1m X 1m  
+ */
+
 #if !defined(OGM_NODE_H)
 #define OGM_NODE_H
 

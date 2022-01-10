@@ -20,7 +20,7 @@
 
   Output missmatch: 
     -> output of this node creates a layer on top of "/map" - indicated dynamic movements of objects. 
-    -> output from "ogm" node, publishes an image under <sensor_msgs::image> which indicates
+    -> output from "ogm_node", publishes an image under <sensor_msgs::image> which indicates
       'occupancy grid map' with static objects. 
     -> These two topics are visualized in separate window!! 
       It has to be layered on one another to get the acctual feel of occupancy map with static and dynamic objects.
@@ -44,7 +44,7 @@ DynamicMarker::DynamicMarker(ros::NodeHandle* n, std::string& pub_topic_name)
 }
 
 /* 
-  DynamicMarker::~DynamicMarker() is a default disstructor to free up the memory utilised
+  DynamicMarker::~DynamicMarker() is a default destructor to free up the memory utilised
  */
 DynamicMarker::~DynamicMarker()
 {

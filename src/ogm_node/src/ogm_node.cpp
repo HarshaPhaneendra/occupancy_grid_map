@@ -1,3 +1,23 @@
+/* 
+    "ogm_node" ROS Node generates 'occupancy grid map' for pre-found/ pre-assumed static objects
+    
+    Generated 'Occupancy grid map' is of 
+        size 300m X 150m represented in 300X150 grid cells 
+        Each cell resolution, 1m X 1m
+    
+    Assumtion: 
+        Locations of Static objects (man it be person/vehicle) are know,
+            henceforth hard coded - Represented by red pixels 
+        Assuming whole/entire map region has been scaned and assumed free, 
+            execpt the locations of static objects - Represented by green pixels
+        'Occupancy grid map'- size and its resolutions are assumed.
+
+    Output: 
+        Published topic "OGM/ogm_image" can be visualized using rqt 
+        Certain static-objects(cars) parked parallely - have been represented in red block of pixels
+        Rest of the map region has assumed free and represented by green pixels
+
+ */
 #include "ogm_node/ogm_node.h"
 
 /*
@@ -78,7 +98,6 @@ void OGM_Class::ChangeToOccupied(
     
 }
 
-
 /* 
     Color-code pixels of occupancy grid map using CV 
     Input Parameters:
@@ -91,12 +110,6 @@ void OGM_Class::ColorCodeMap(
         const double& row_value, 
             const double& col_value)
 {
-    /* ogm_vec[10][50] = 1;
-    ogm_vec[10][100] = 1;
-    ogm_vec[10][147] = 1;
-    ogm_vec[10][148] = 1;
-    ogm_vec[10][149] = 1;
-    ogm_vec[10][150] = 1; */
 
     for (double x = 0; x < row_value; x++)
     {
@@ -126,7 +139,6 @@ void OGM_Class::ColorCodeMap(
     }
 }
 
-
 /* 
     OGM_Class::PublishMsg() is used for convertion of cv::mat to sensor_msgs::image 
     and to publish sensor_mags::image
@@ -147,7 +159,7 @@ int main(int argc, char **argv)
     ros::NodeHandle nh_; // creating node handle
     image_transport::ImageTransport it_(nh_); 
 
-    // create a Mat image with 8 unsigned integer image with 3 channels(RGB)
+    // create a CV::mat image with '8 unsigned integer image with 3 channels(RGB)'
     cv::Mat image(col_value, row_value, CV_8UC3);
     cv::waitKey(30); 
   
